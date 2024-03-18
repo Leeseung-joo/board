@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--텍스트 입력필드 input type,br:줄바꿈, textarea:여러줄을 입력할 수 있는 필드, submit:제출 폼-->
+<form action="/save" method="post" enctype="multipart/form-data">
+    제목: <input type="text" name="boardTitle"><br>
+    작성자: <input type="text" name="boardWriter"><br>
+    비밀번호: <input type="text" name="boardPass"><br>
+    내용: <textarea name="boardContents" cols="30" rows="10"></textarea>
+    파일: <input type="file" name="boardFile" multiple><br>
+    <input type="submit" value="작성">
+</form>
+</body>
+</html>

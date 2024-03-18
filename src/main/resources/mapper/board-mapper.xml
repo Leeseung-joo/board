@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into board_table(boardTitle, boardWriter, boardPass, boardContents, fileAttached)
+        values(#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents}, #{fileAttached})
+    </insert>
+    <select id="findAll" resultType="board">
+        select id, boardTitle, boardWriter, boardHits, date_format(createdAt, "%Y-%m-%d") as createdAt
+        from board_table order by id desc
+    </select>
+    <update id="updateHits" parameterType="Long">
+        update board_table set boardHits=boardHits+1 where id=#{id}
+    </update>
+    <select id="findById" parameterType="Long" resultType="board">
+        select id, boardTitle, boardWriter, boardPass, boardContents, boardHits,
+               date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt, fileAttached
+        from board_table where id=#{id}
+    </select>
+    <update id="update">
+        update board_table set boardTitle=#{boardTitle}, boardContents=#{boardContents} where id=#{id}
+    </update>
+    <delete id="delete" parameterType="Long">
+        delete from board_table where id=#{id}
+    </delete>
+    <insert id="saveFile" parameterType="boardFile">
+        insert into board_file_table(originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
+    </insert>
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select * from board_file_table where boardId = #{id}
+    </select>
+</mapper>
+<!--        파라미터 타입(parameterType):-->
+
+<!--        파라미터 타입은 SQL 문장에 전달되는 매개변수의 타입을 지정합니다.-->
+<!--        보통 SQL 문장에서 사용되는 입력 매개변수나 조건을 지정할 때 사용됩니다.-->
+<!--        예를 들어, INSERT, UPDATE, DELETE 등의 문장에서 데이터를 변경하기 위한 매개변수 타입을 지정할 때 사용됩니다.-->
+<!--        대부분의 경우 Java 객체나 기본 데이 mybatis에서는 #{}를 통해 동적 쿼리 매개변수를 표시함;터 타입을 사용합니다.-->
+<!--        리절트 타입(resultType):-->
+
+<!--        리절트 타입은 SQL 문장의 실행 결과를 매핑할 Java 객체의 타입을 지정합니다.-->
+<!--        보통 SELECT 문장의 실행 결과를 매핑할 때 사용됩니다.-->
+<!--        쿼리 결과를 객체로 매핑하여 Java 코드에서 사용할 수 있게 합니다.-->
+<!--        보통 결과를 매핑할 Java 클래스나 DTO(Data Transfer Object)를 지정합니다.-->
