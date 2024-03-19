@@ -9,7 +9,6 @@
             border: 1px solid black;
             border-collapse: collapse;
         }
-            /* 테이블 셀의 내부 여백을 설정, 테이블 헤더 셀과 데이터 셀에 대해 모두 내부 여백을 10px로 지정.*/
         th, td {
             padding: 10px;
         }
@@ -43,7 +42,9 @@
     </tr>
     <tr th:if="${board.fileAttached == 1}">
         <th>image</th>
-        <td><img th:src="@{|/upload/${boardFile.storedFileName}|}" alt = "" width = "200" height="200"></td>
+        <td th:each="boardFile: ${boardFileList}">
+            <img th:src="@{|/upload/${boardFile.storedFileName}|}" alt="" width="200" height="200">
+        </td>
     </tr>
 </table>
 <button onclick="listReq()">목록</button>
@@ -54,13 +55,11 @@
     const listReq = () => {
         location.href = "/list";
     }
-    const updateReq = () =>{
+    const updateReq = () => {
         location.href = `/update/[[${board.id}]]`;
     }
     const deleteReq = () => {
         location.href = `/delete/[[${board.id}]]`;
     }
-
-
 </script>
 </html>
